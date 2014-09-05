@@ -22,7 +22,7 @@ Installation
 Either download the file from here or use [bower](http://bower.io/):
 
 ```
-bower install page.js-body-parser
+bower install page.js-body-parser.js
 ```
 
 Initialization
