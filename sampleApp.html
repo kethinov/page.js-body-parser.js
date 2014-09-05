@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple sample app to test page.js-body-parser.js</title>
+  <meta charset='UTF-8'>
+</head>
+<body>
+  <ul>
+    <li><a href='/testlink'>/testlink (test of a regular link)</a></li>
+  </ul>
+  
+  <form action='/bodytest' method='post'>
+    <fieldset>
+      <legend>body test</legend>
+      <dl>
+        <dt><label for='textbox'>text box:</label></dt>
+        <dd><input type='text' name='textbox' id='textbox'></dd>
+        <dt><label for='checkbox'>checkbox:</label></dt>
+        <dd><input type='checkbox' name='checkbox' id='checkbox'></dd>
+        <dt><label>radios:</label></dt>
+        <dd>
+          <ul class='radios'>
+            <li><input type='radio' name='radios' value='one'> one</li>
+            <li><input type='radio' name='radios' value='two'> two</li>
+            <li><input type='radio' name='radios' value='three'> three</li>
+          </ul>
+        </dd>
+      </dl>
+      <div class='actions'>
+        <input type='submit' name='submit' value='Submit'>
+      </div>
+    </fieldset>
+  </form>
+  
+  <!--
+    make sure to run:
+    bower install page.js
+  -->
+  <script src='bower_components/page.js/index.js'></script>
+
+  <!--
+    load body-parser plugin
+  -->
+  <script src='page.js-body-parser.js'></script>
+  
+  <!--
+    sample app code
+  -->
+  <script>
+    
+    // define routes
+    page('/testlink', function(req) {
+      console.log(req.body);
+    });
+    page('/bodytest', function(req) {
+      console.log(req.body);
+    });
+    
+    // activate router
+    page();
+    
+    // activate body-parser plugin
+    pageBodyParser();
+    
+  </script>
+</body>
+</html>
