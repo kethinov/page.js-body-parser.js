@@ -1,4 +1,4 @@
-page.js-body-parser.js
+page.js-body-parser.js [![Gittip](http://img.shields.io/gittip/kethinov.png)](https://www.gittip.com/kethinov/)
 ===
 
 A plugin for [page.js](http://visionmedia.github.io/page.js/) which extends it to handle forms as well.
