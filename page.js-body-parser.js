@@ -2,40 +2,45 @@
 
   // bind forms
   function pageBodyParser() {
-    var els = document.getElementsByTagName('form'), l = els.length, i, el;
-    for (i = 0; i < l; i++) {
-      el = els[i];
-      el.removeEventListener('submit', bodyParser, false);
-      el.addEventListener('submit', bodyParser, false);
-    }
-
-    // bind buttons
-    els = document.getElementsByTagName('button');
-    l = els.length;
-    for (i = 0; i < l; i++) {
-      el = els[i];
-      el.removeEventListener('click', bodyParser, false);
-      el.addEventListener('click', bodyParser, false);
-    }
-
-    // bind inputs type=button and type=submit
-    els = document.getElementsByTagName('input');
-    l = els.length;
-    for (i = 0; i < l; i++) {
-      el = els[i];
-      switch (el.type) {
-        case 'button':
-        case 'submit':
-          el.removeEventListener('click', bodyParser, false);
-          el.addEventListener('click', bodyParser, false);
-          break;
-      }
-    }
+    window.removeEventListener('click', bodyParser, false);
+    window.removeEventListener('keypress', bodyParser, false);
+    window.addEventListener('click', bodyParser, false);
+    window.addEventListener('keypress', bodyParser, false);
   }
 
   // handle forms in a manner similar to body-parser
   function bodyParser(e) {
-    var el = e.target, form = el, link, proto, path, orig, body = {}, i, l, control;
+    var el = e.target,
+        form = el,
+        nodeName = el.nodeName,
+        keycode = (e.keyCode ? e.keyCode : e.which),
+        link,
+        proto,
+        path,
+        orig,
+        body = {},
+        i,
+        l,
+        control;
+    
+    if (e.type === 'keypress') {
+      if (keycode === 13) {
+        if (nodeName !== 'INPUT') {
+          return; // enter key only valid when a form is focused
+        }
+      }
+      else {
+        return; // ignore other keypresses
+      }
+    }
+    else {
+      if (nodeName !== 'INPUT' && nodeName !== 'BUTTON') {
+        return; // something other than a submit button was clicked
+      }
+      else if (nodeName === 'INPUT' && el.type !== 'submit') {
+        return; // input was clicked that is not a submit button
+      }
+    }
     
     // find parent form
     while (form && 'FORM' !== form.nodeName) {
@@ -112,10 +117,6 @@
     page.show(orig, {body: body});  
   }
 
-  /*
-   * page.js integration
-   */
-  
   // overload page.js show method to add support for body parser
   page.show = function(path, state, dispatch){
     var ctx = new page.Context(path, state);
@@ -124,17 +125,15 @@
     if (!ctx.unhandled) ctx.pushState();
     return ctx;
   };
-
-  /**
-   * Expose `pageBodyParser`.
-   */
   
+  // needed because https://github.com/visionmedia/page.js/issues/125
   function sameOrigin(href) {
     var origin = location.protocol + '//' + location.hostname;
     if (location.port) origin += ':' + location.port;
     return (href && (0 == href.indexOf(origin)));
   }
 
+  // expose pageBodyParser
   if ('undefined' == typeof module) {
     window.pageBodyParser = pageBodyParser;
   }
