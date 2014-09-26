@@ -19,6 +19,7 @@
         path,
         orig,
         body = {},
+        submitAdded,
         i,
         l,
         control;
@@ -83,34 +84,37 @@
     // same page
     orig = path + form.hash;
 
+    function addToBody(el, val) {
+      if (el.name) {
+        body[el.name] = val;
+      }
+      else if (el.id) {
+        body[el.id] = val;
+      }
+    }
+    
     // build req.body
     l = form.elements.length;
+    addToBody(el, el.value);
+    if ((el.name || el.id) && el.type === 'submit') {
+      submitAdded = true;
+    }
     for (i = 0; i < l; i++) {
       control = form.elements[i];
       if (control.type === 'checkbox') {
-        if (control.name) {
-          body[control.name] = control.checked;
-        }
-        else if (control.id) {
-          body[control.id] = control.checked;
+        addToBody(control, control.checked);
+      }
+      else if (control.type === 'submit') {
+        if (!submitAdded) {
+          addToBody(control, control.value);
+          submitAdded = true;
         }
       }
-      else if (control.nodeName !== 'BUTTON' && control.type !== 'submit') {
+      else if (control.nodeName !== 'BUTTON') {
         if (control.type !== 'radio' || control.checked) {
-          if (control.name) {
-            body[control.name] = control.value;
-          }
-          else if (control.id) {
-            body[control.id] = control.value;
-          }
+          addToBody(control, control.value);
         }
       }
-    }
-    if (el.name) {
-      body[el.name] = el.value;
-    }
-    else if (el.id) {
-      body[el.id] = el.value;
     }
 
     e.preventDefault();
