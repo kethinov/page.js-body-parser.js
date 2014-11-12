@@ -76,7 +76,7 @@
     if (form.pathname === location.pathname && (form.hash || '#' === link)) return;
 
     // x-origin
-    if (!sameOrigin(form.action)) return;
+    if (!page.sameOrigin(form.action)) return;
 
     // rebuild path
     path = form.pathname + form.search + (form.hash || '');
@@ -126,17 +126,10 @@
     var ctx = new page.Context(path, state);
     if (state && state.body) ctx.body = state.body;
     if (false !== dispatch) page.dispatch(ctx);
-    if (!ctx.unhandled) ctx.pushState();
+    if (false !== ctx.handled) ctx.pushState();
     return ctx;
   };
   
-  // needed because https://github.com/visionmedia/page.js/issues/125
-  function sameOrigin(href) {
-    var origin = location.protocol + '//' + location.hostname;
-    if (location.port) origin += ':' + location.port;
-    return (href && (0 == href.indexOf(origin)));
-  }
-
   // expose pageBodyParser
   if ('undefined' == typeof module) {
     window.pageBodyParser = pageBodyParser;
