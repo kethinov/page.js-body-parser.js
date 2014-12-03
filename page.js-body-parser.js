@@ -120,11 +120,14 @@
     e.preventDefault();
     page.show(orig, {body: body});  
   }
+  
+  var Context = page.Context;
 
   // overload page.js show method to add support for body parser
-  page.show = function(path, state, dispatch){
-    var ctx = new page.Context(path, state);
-    if (state && state.body) ctx.body = state.body;
+  page.show = function(path, state, dispatch) {
+    var ctx = new Context(path, state);
+    page.current = ctx.path;
+    if (state && state.body) ctx.body = state.body; // new
     if (false !== dispatch) page.dispatch(ctx);
     if (false !== ctx.handled) ctx.pushState();
     return ctx;
