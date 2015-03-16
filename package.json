@@ -1,6 +1,6 @@
 {
   "name": "page.js-body-parser.js",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Plugin for page.js which implements support for forms akin to body-parser.",
   "main": "page.js-body-parser.js",
   "repository": {
