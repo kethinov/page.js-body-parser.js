@@ -1,6 +1,8 @@
 page.js-body-parser.js
 ===
 
+**NOTE: THIS PLUGIN IS DEPRECATED AND DOES NOT WORK WITH THE LATEST VERSION OF PAGE.JS.**
+
 A plugin for [page.js](http://visionmedia.github.io/page.js/) which extends it to handle forms as well.
 
 Form data is populated in the `req` object provided by page.js in a manner similar to how [body-parser](https://github.com/expressjs/body-parser) populates the `req` object provided by [Express](http://expressjs.com/).
@@ -30,7 +32,7 @@ Initialization
 
 Load `page.js-body-parser.js` after loading `page.js`.
 
-Then initialize it by calling: 
+Then initialize it by calling:
 
 ```js
 pageBodyParser();
