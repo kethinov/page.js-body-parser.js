@@ -1,7 +1,7 @@
 page.js-body-parser.js
 ===
 
-**NOTE: THIS PLUGIN IS DEPRECATED AND DOES NOT WORK WITH THE LATEST VERSION OF PAGE.JS.**
+**This project is no longer maintained. It also does not work with the latest version of page.js. See [single-page-express](https://github.com/rooseveltframework/single-page-express) for a spiritual successor.**
 
 A plugin for [page.js](http://visionmedia.github.io/page.js/) which extends it to handle forms as well.
 
